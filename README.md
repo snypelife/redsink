@@ -7,7 +7,9 @@ This is just a simple cli tool used to migrate data in redis servers. It support
 ## Installation
 Until the module gets published to a registry of some kind, you can install it to your machine locally like so:
 
-`npm i -g .`
+`npm link` or `npm i -g .`
+
+You can also create a simple tarball using `make tar`.
 
 ## Basic usage
 ```

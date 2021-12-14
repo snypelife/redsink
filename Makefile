@@ -7,6 +7,7 @@ help:
 	@echo 'test: Runs the test suite'
 	@echo 'lint: Lint files to ensure they match conventions'
 	@echo 'coverage: See code coverage report'
+	@echo 'tar: Tarball the tool'
 
 install:
 	@echo 'Activating correct version of node...'
@@ -25,4 +26,10 @@ lint:
 coverage:
 	@echo 'Opening coverage report...'
 	npm run cov
+
+tar:
+	@echo 'Pruning dev packages...'
+	npm prune --production
+	@echo 'Packaging the tool'
+	tar -cvzf redsink.tar.gz package.json cli.js lib/ README.md
 
