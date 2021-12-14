@@ -1,6 +1,4 @@
-![redsink](https://user-images.githubusercontent.com/1965406/146041466-8e0e6a1c-22d5-4651-99e3-32a24b8d919f.png)
-
-# redsink
+<p align="center"><img alt="redsink" src="https://user-images.githubusercontent.com/1965406/146062822-7fec4cda-4b5a-4895-b1a3-8e61ca50beb8.png"/></p>
 
 This is just a simple cli tool used to migrate data in redis servers. It supports standalone servers as well as those in AWS Elasticache. It uses a combination of SCAN, DUMP, RESTORE and MONITOR to perform the migration as well as watch any incoming set commands and shuffle those changes over to the destination, to avoid drift during the migation.
 
