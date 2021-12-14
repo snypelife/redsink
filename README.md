@@ -1,5 +1,6 @@
+![redsink](https://user-images.githubusercontent.com/1965406/146035682-db3cedce-3d12-4f2c-9194-fa009b5c742d.png)
+
 # redsink
----
 
 This is just a simple cli tool used to migrate data in redis servers. It supports standalone servers as well as those in AWS Elasticache. It uses a combination of SCAN, DUMP, RESTORE and MONITOR to perform the migration as well as watch any incoming set commands and shuffle those changes over to the destination, to avoid drift during the migation.
 
@@ -28,23 +29,32 @@ Options:
 ```
 
 ## Examples
-Simple local migration:
+**Simple local migration:**
+
 `redsink localhost:6379 localhost:7000`
+
 `redsink --from localhost:6379 --to localhost:7000`
 
-Local to remote:
+**Local to remote:**
+
 `redsink localhost:6379 redis://foo.zlpjwb.use1.cache.amazonaws.com`
 
-Local to remote:
+**Local to remote:**
+
 `redsink redis://foo.zlpjwb.use1.cache.amazonaws.com redis://bar.zlpjwb.use1.cache.amazonaws.com`
 
-Local to remote with AUTH and SSL:
+**Local to remote with AUTH and SSL:**
+
 `redsink --from localhost:6479 --to rediss://username:password@master.xxx.XXX.use1.cache.amazonaws.com`
+
 `redsink --from localhost:6479 --to rediss://master.xxx.XXX.use1.cache.amazonaws.com --to-user username --to-password password`
+
 `redsink --from localhost:6479 --to rediss://:auth_token@master.xxx.XXX.use1.cache.amazonaws.com`
+
 `redsink --from localhost:6479 --to rediss://master.xxx.XXX.use1.cache.amazonaws.com --to-token auth_token`
 
-Specific database index:
+**Specific database index:**
+
 `redsink localhost:6379/0 localhost:6379/1`
 
 ## Development
