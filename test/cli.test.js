@@ -76,7 +76,7 @@ describe('redsink (integration)', function () {
   })
 
   it('should migrate data from one redis to another using args', async function () {
-    this.timeout(15000)
+    this.timeout(10000)
 
     const sourceDbSize = await async(this.sourceClient, 'DBSIZE')()
     let destDbSize = await async(this.destClient, 'DBSIZE')()
@@ -88,7 +88,7 @@ describe('redsink (integration)', function () {
       `${sourceHost}:${sourcePort}`,
       `${destHost}:${destPort}`
     ])
-    await sleep(5000)
+    await sleep(2500)
 
     destDbSize = await async(this.destClient, 'DBSIZE')()
 
@@ -98,7 +98,7 @@ describe('redsink (integration)', function () {
   })
 
   it('should migrate data from one redis to another using flags', async function () {
-    this.timeout(15000)
+    this.timeout(10000)
 
     const sourceDbSize = await async(this.sourceClient, 'DBSIZE')()
     let destDbSize = await async(this.destClient, 'DBSIZE')()
@@ -110,7 +110,7 @@ describe('redsink (integration)', function () {
       `--from=${sourceHost}:${sourcePort}`,
       `--to=${destHost}:${destPort}`
     ])
-    await sleep(5000)
+    await sleep(2500)
 
     destDbSize = await async(this.destClient, 'DBSIZE')()
 
@@ -120,7 +120,7 @@ describe('redsink (integration)', function () {
   })
 
   it('should migrate from one database index to another', async function () {
-    this.timeout(15000)
+    this.timeout(10000)
 
     await async(this.destClient, 'select')(1)
     const sourceDbSize = await async(this.sourceClient, 'DBSIZE')()
@@ -133,7 +133,7 @@ describe('redsink (integration)', function () {
       `--from=${sourceHost}:${sourcePort}/0`,
       `--to=${destHost}:${destPort}/1`
     ])
-    await sleep(5000)
+    await sleep(2500)
 
     destDbSize = await async(this.destClient, 'DBSIZE')()
 
@@ -143,7 +143,7 @@ describe('redsink (integration)', function () {
   })
 
   it('should log a ton when debug mode is enabled', async function () {
-    this.timeout(15000)
+    this.timeout(10000)
 
     const { sourcePort, sourceHost, destPort, destHost } = this
     const output = await cmd.execute(pathToCli, [
@@ -151,7 +151,7 @@ describe('redsink (integration)', function () {
       `${sourceHost}:${sourcePort}`,
       `${destHost}:${destPort}`
     ])
-    await sleep(5000)
+    await sleep(2500)
 
     assert.match(output, /"debug":true/)
     assert.match(output, /Scanning index:/)
@@ -159,7 +159,7 @@ describe('redsink (integration)', function () {
   })
 
   it('should sync data that comes in after the migration starts', async function () {
-    this.timeout(20000)
+    this.timeout(15000)
 
     const { sourcePort, sourceHost, destPort, destHost } = this
 
@@ -169,7 +169,7 @@ describe('redsink (integration)', function () {
       `${sourceHost}:${sourcePort}`,
       `${destHost}:${destPort}`
     ])
-    await sleep(5000)
+    await sleep(2500)
 
     let sourceDbSize = await async(this.sourceClient, 'DBSIZE')()
     let destDbSize = await async(this.destClient, 'DBSIZE')()
@@ -182,7 +182,7 @@ describe('redsink (integration)', function () {
     for (let x = 0; x < DATA_SIZE; x++) {
       this.sourceClient.set(`hotsync:${x}`, x)
     }
-    await sleep(2000)
+    await sleep(2500)
 
     sourceDbSize = await async(this.sourceClient, 'DBSIZE')()
     destDbSize = await async(this.destClient, 'DBSIZE')()
@@ -193,7 +193,7 @@ describe('redsink (integration)', function () {
   })
 
   it('should work for large datasets', async function () {
-    this.timeout(90000) // takes ~60s for this test, using 90s for buffer
+    this.timeout(40000)
 
     const { sourcePort, sourceHost, destPort, destHost } = this
 
