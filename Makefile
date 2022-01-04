@@ -27,6 +27,10 @@ coverage:
 	@echo 'Opening coverage report...'
 	npm run cov
 
+pack:
+	@echo 'Packaging cli into binary...'
+	npx pkg .
+
 tar:
 	@echo 'Pruning dev packages...'
 	npm prune --production
