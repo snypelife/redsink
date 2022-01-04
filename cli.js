@@ -3,8 +3,10 @@
 const { program } = require('commander')
 const chalk = require('chalk')
 const redsink = require('./lib/redsink.js')
+const pkg = require('./package.json')
 
-program.version(require('./package.json').version)
+program.name(pkg.name)
+program.version(pkg.version)
 program.arguments('[source_host] [dest_host]')
 program.option('-d, --debug', 'Enable debug mode')
 program.option('--hot-sync', 'Enable hot syncing')
