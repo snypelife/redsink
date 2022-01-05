@@ -5,9 +5,9 @@ This is just a simple cli tool used to migrate data in redis servers. It support
 ## Installation
 Until the module gets published to a registry of some kind, you can install it to your machine locally like so:
 
-`npm link` or `npm i -g .`
-
-You can also create a simple tarball using `make tar`.
+1. By downloading the relevant available binary from the releases page: https://github.com/snypelife/redsink/releases
+2. From within the repo, running `npm link` or `npm i -g .`
+3. You can also create a simple tarball using `make tar`.
 
 ## Basic usage
 ```
