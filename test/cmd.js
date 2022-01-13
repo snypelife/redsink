@@ -6,8 +6,12 @@ const processes = []
 function createProcess (processPath, args = [], env = null) {
   args = [processPath].concat(args)
 
-  return spawn('/usr/local/bin/node', args, {
-    env: Object.assign({ NODE_ENV: 'test' }, env)
+  return spawn('node', args, {
+    env: {
+      ...env,
+      NODE_ENV: 'test',
+      PATH: process.env.PATH
+    }
   })
 }
 
