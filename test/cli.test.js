@@ -159,7 +159,7 @@ describe('redsink (integration)', function () {
   })
 
   it('should sync data that comes in after the migration starts', async function () {
-    this.timeout(15000)
+    this.timeout(25000)
 
     const { sourcePort, sourceHost, destPort, destHost } = this
 
@@ -182,7 +182,7 @@ describe('redsink (integration)', function () {
     for (let x = 0; x < DATA_SIZE; x++) {
       this.sourceClient.set(`hotsync:${x}`, x)
     }
-    await sleep(2500)
+    await sleep(10000)
 
     sourceDbSize = await async(this.sourceClient, 'DBSIZE')()
     destDbSize = await async(this.destClient, 'DBSIZE')()
