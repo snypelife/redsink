@@ -57,6 +57,11 @@ Options:
 
 `redsink localhost:6379/0 localhost:6379/1`
 
+## Notes
+If you're using this tool from your local machine, you may want to use something like the [`caffeinate`](https://ss64.com/osx/caffeinate.html) command to prevent the machine from sleeping during a long running migration and breaking the connection. 
+
+`caffeinate redsink localhost:6379 localhost:7000`
+
 ## Development
 In order to work on this effectively, you will need both node.js and Docker on your machine.
 
