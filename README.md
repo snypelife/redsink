@@ -39,7 +39,7 @@ Options:
 
 `redsink localhost:6379 redis://foo.zlpjwb.use1.cache.amazonaws.com`
 
-**Local to remote:**
+**Remote to remote:**
 
 `redsink redis://foo.zlpjwb.use1.cache.amazonaws.com redis://bar.zlpjwb.use1.cache.amazonaws.com`
 
@@ -61,6 +61,15 @@ Options:
 If you're using this tool from your local machine, you may want to use something like the [`caffeinate`](https://ss64.com/osx/caffeinate.html) command to prevent the machine from sleeping during a long running migration and breaking the connection. 
 
 `caffeinate redsink localhost:6379 localhost:7000`
+
+---
+Also, if you're using an intermediary instance to perform the remote to remote migration (which I recommend), consider using something like the [`screen`]() command, to allow for the process to continue in the background and not relying on a constant SSH connection. Otherwise you can end up with failing migrations that only half complete.
+
+The additional benefit of using an intermediate instance, is that you can take advantage of the internal network speeds of Cloud Service Providers to reduce overall latency and severely reduce the time for the migration to complete.
+
+Some anecdotal evidence:
+
+I was able to migrate databases that had **tens of millions of keys** in roughly **32 minutes**, by using an intermediate instance within the same VPC and region of the elasticache clusters.
 
 ## Development
 In order to work on this effectively, you will need both node.js and Docker on your machine.
