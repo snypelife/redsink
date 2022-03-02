@@ -193,7 +193,7 @@ describe('redsink (integration)', function () {
   })
 
   it('should work for large datasets', async function () {
-    this.timeout(40000)
+    this.timeout(60000)
 
     const { sourcePort, sourceHost, destPort, destHost } = this
 
