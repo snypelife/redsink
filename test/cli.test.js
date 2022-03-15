@@ -1,6 +1,5 @@
-const { promisify } = require('util')
 const path = require('path')
-const { setTimeout: sleep } = require('timers/promises')
+const { async, readFile, rm, sleep } = require('./helpers.js')
 const assert = require('assert')
 const redis = require('redis')
 const { GenericContainer } = require('testcontainers')
@@ -12,10 +11,6 @@ function startRedis (name) {
     .withName(name)
     .withExposedPorts(6379)
     .start()
-}
-
-function async (object, methodName) {
-  return promisify(object[methodName]).bind(object)
 }
 
 async function populate (client, namespace, count) {
