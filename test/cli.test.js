@@ -1,6 +1,5 @@
-const { promisify } = require('util')
 const path = require('path')
-const { setTimeout: sleep } = require('timers/promises')
+const { async, readFile, rm, sleep } = require('./helpers.js')
 const assert = require('assert')
 const redis = require('redis')
 const { GenericContainer } = require('testcontainers')
@@ -12,10 +11,6 @@ function startRedis (name) {
     .withName(name)
     .withExposedPorts(6379)
     .start()
-}
-
-function async (object, methodName) {
-  return promisify(object[methodName]).bind(object)
 }
 
 async function populate (client, namespace, count) {
@@ -209,5 +204,28 @@ describe('redsink (integration)', function () {
     assert.equal(destDbSize, sourceDbSize)
     assert.equal(sourceDbSize, DATA_SIZE + 100000)
     assert.equal(destDbSize, DATA_SIZE + 100000)
+  })
+
+  it('output a log file once the migration has finished', async function () {
+    after(async function () {
+      // Remove log file
+      // await rm('redsink.log')
+    })
+
+    this.timeout(10000)
+
+    await async(this.sourceClient, 'DBSIZE')()
+    await async(this.destClient, 'DBSIZE')()
+
+    const { sourcePort, sourceHost, destPort, destHost } = this
+    await cmd.execute(pathToCli, [
+      '--output',
+      `--from=${sourceHost}:${sourcePort}`,
+      `--to=${destHost}:${destPort}`
+    ])
+    await sleep(3000)
+
+    const data = await readFile('redsink.log')
+    assert.ok(data, 'File does not exist')
   })
 })

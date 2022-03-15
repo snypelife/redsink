@@ -1,4 +1,6 @@
+const assert = require('assert')
 const sinon = require('sinon')
+const { readFile, rm, sleep } = require('../helpers.js')
 const logger = require('../../lib/logger.js')
 
 describe('logger', function () {
@@ -30,6 +32,38 @@ describe('logger', function () {
     it('should log in debug mode', function () {
       logger('debug', { debug: true }).debug('this is a debug log')
       sinon.assert.calledWith(console.debug, '\x1B[90mdebug:\x1B[39m this is a debug log')
+    })
+  })
+
+  describe('logfile', function () {
+    it('should create a redsink.log file by default', async function () {
+      after(async function () {
+        // Remove log file
+        await rm('redsink.log')
+      })
+
+      logger.openLogfile()
+      logger('logfile').info('logger test!')
+      logger.closeLogfile()
+      await sleep(25)
+
+      const data = await readFile('redsink.log')
+      assert.ok(data, 'File does not exist')
+    })
+
+    it('should create a custom log file', async function () {
+      after(async function () {
+        // Remove log file
+        await rm('custom.log')
+      })
+
+      logger.openLogfile('custom.log')
+      logger('logfile').info('logger test!')
+      logger.closeLogfile()
+      await sleep(25)
+
+      const data = await readFile('custom.log')
+      assert.ok(data, 'File does not exist')
     })
   })
 })
