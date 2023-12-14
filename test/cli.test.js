@@ -10,6 +10,10 @@ function startRedis (name) {
   return new GenericContainer('redis:alpine')
     .withName(name)
     .withExposedPorts(6379)
+    .withCopyFilesToContainer([{
+      source: 'redis.conf',
+      target: '/etc/redis/redis.conf'
+    }])
     .start()
 }
 
