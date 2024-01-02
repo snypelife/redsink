@@ -1,8 +1,8 @@
 const path = require('path')
-const { async, readFile, rm, sleep } = require('./helpers.js')
+const { async, readFile, sleep } = require('./helpers.js')
 const assert = require('assert')
 const redis = require('redis')
-const { GenericContainer } = require('testcontainers')
+const { GenericContainer, Wait } = require('testcontainers')
 const cmd = require('./cmd.js')
 
 function startRedis (name) {
@@ -10,6 +10,12 @@ function startRedis (name) {
   return new GenericContainer('redis:alpine')
     .withName(name)
     .withExposedPorts(6379)
+    .withCopyFilesToContainer([{
+      source: path.join(__dirname, 'redis.conf'),
+      target: '/etc/redis.conf'
+    }])
+    .withCommand(['redis-server', '/etc/redis.conf'])
+    .withWaitStrategy(Wait.forLogMessage('Ready to accept connections'))
     .start()
 }
 
@@ -28,9 +34,9 @@ describe('redsink (integration)', function () {
     sourceRedis = await startRedis('source-redis')
     destRedis = await startRedis('dest-redis')
 
-    this.sourcePort = sourceRedis.getMappedPort(6379)
+    this.sourcePort = sourceRedis.getFirstMappedPort()
     this.sourceHost = sourceRedis.getHost()
-    this.destPort = destRedis.getMappedPort(6379)
+    this.destPort = destRedis.getFirstMappedPort()
     this.destHost = destRedis.getHost()
 
     this.sourceClient = redis.createClient(
