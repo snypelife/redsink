@@ -42,6 +42,7 @@
     "concat-stream": "^2.0.0",
     "husky": "^9.1.1",
     "mocha": "^10.7.0",
+    "mocha-ctrf-json-reporter": "^0.0.4",
     "nyc": "^17.0.0",
     "opener": "^1.5.2",
     "sinon": "^18.0.0",
